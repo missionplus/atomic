@@ -1,0 +1,19 @@
+{
+  "name": "atomic",
+  "version": "0.1.0",
+  "description": "Atomic — MISSION+'s Claude Code framework of composable skills for the ACDC / ATOM way of working: AI-augmented engineering across the application lifecycle. This release ships two skills focused on testability (generate-fake, update-fake); future releases will add skills across other ACDC / ATOM problem spaces (legacy code understanding, refactoring, documentation, observability, and more).",
+  "author": {
+    "name": "MISSION+",
+    "url": "https://mission.plus"
+  },
+  "homepage": "https://mission.plus",
+  "keywords": [
+    "atomic",
+    "atom",
+    "acdc",
+    "mission-plus",
+    "agentic-engineering",
+    "testing",
+    "fakes"
+  ]
+}

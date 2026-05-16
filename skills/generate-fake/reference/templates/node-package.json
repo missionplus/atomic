@@ -1,0 +1,13 @@
+{
+  "name": "orders-service-fake",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "fastify": "^4.28.0"
+  }
+}

@@ -1,0 +1,17 @@
+# Snippet — paste/compose into a consuming project's docker-compose stack.
+# Or run on its own from inside /fake:  `docker compose -f docker-compose.fake.yaml up`
+
+services:
+  fake:
+    build: .
+    image: ${FAKE_IMAGE:-orders-service-fake:local}
+    container_name: orders-service-fake
+    ports:
+      - "${FAKE_PORT:-8000}:8000"
+    environment:
+      FAKE_PORT: "8000"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8000/health"]
+      interval: 5s
+      timeout: 2s
+      retries: 5
