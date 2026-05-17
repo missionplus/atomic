@@ -8,7 +8,8 @@ The manifest is the single source of truth that `update-fake` reads to detect dr
 schemaVersion: 1
 fake:
   name: orders-service-fake
-  generatedAt: 2026-05-16T11:32:00Z
+  generatedAt: 2026-05-16T11:32:00Z    # immutable — set once by generate-fake
+  lastUpdatedAt: 2026-05-16T11:32:00Z  # mutable — bumped by every update-fake run
   generatorPlugin:
     name: atomic
     version: 0.1.0
@@ -120,6 +121,8 @@ fragilityFindings:
 ## Field rules
 
 - **`schemaVersion`** — integer. Bump whenever a breaking change is made to this schema. Current: `1`.
+- **`generatedAt`** — RFC 3339 timestamp; set once by `generate-fake` and never modified afterwards.
+- **`lastUpdatedAt`** — RFC 3339 timestamp; refreshed on every `update-fake` run that touches the manifest. On first generation, equal to `generatedAt`.
 - **`sha256`** — lowercase hex of the SHA-256 of the file content at generation time.
 - **`fidelity`** — one of `canned`, `transform`, `stateful-lite`, `sqlite` (for DB-kind surfaces), `passthrough` (rarely used; for surfaces deliberately left as no-ops).
 - **`confidence`** — one of `spec`, `code`, `infer`.

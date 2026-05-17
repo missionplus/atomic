@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from . import state
+import state
 
 app = FastAPI(
     title="orders-service-fake",

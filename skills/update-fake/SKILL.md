@@ -60,7 +60,7 @@ If a source file is missing from the working tree, mark as `source_removed`.
 
 #### 2c. Git history
 
-Run `git log --name-status <repoHeadSha>..HEAD -- <every recorded sourceFiles path> <every recorded specs path>` (use the `mcp__workspace__bash` tool).
+Run `git log --name-status <repoHeadSha>..HEAD -- <every recorded sourceFiles path> <every recorded specs path>`.
 
 Use the resulting log as a focus list — even files that ended at the same SHA but were touched along the way may have had behaviour-affecting changes you want to look at in context.
 
@@ -117,7 +117,7 @@ For each approved change:
 - Update `fake.manifest.yaml`:
   - Refresh the SHA-256 of the relevant `sourceFiles` and `specs`.
   - Add/remove/modify `surfaces` entries.
-  - Bump `fake.generatedAt` (actually call it `lastUpdatedAt` for clarity — keep `generatedAt` immutable).
+  - Set `fake.lastUpdatedAt` to the current time. Leave `fake.generatedAt` untouched — it is immutable.
   - Update `fake.application.repoHeadSha` to the new HEAD.
 - Append an entry to `/fake/CHANGES.md` using `reference/changelog-template.md`.
 
