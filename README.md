@@ -1,8 +1,10 @@
 # Atomic
 
-**A Claude Code plugin and framework for the MISSION+ ACDC / ATOM way of working.**
+**An agent-agnostic plugin and framework for the MISSION+ ACDC / ATOM way of working.**
 
-Atomic is a growing collection of composable Claude Code skills that put AI agents to work across the application lifecycle — testing, legacy code understanding, refactoring, documentation, observability, and more. Each skill is *atomic*: it does one thing well and composes with the others.
+Atomic is a growing collection of composable agent skills that put AI coding assistants to work across the application lifecycle — testing, legacy code understanding, refactoring, documentation, observability, and more. Each skill is *atomic*: it does one thing well and composes with the others.
+
+Skills ship in three formats from a single canonical source: **Claude Code skills**, **OpenAI Codex skills**, and **GitHub Copilot prompt files**.
 
 This release (v0.1.0) ships two skills focused on **testability**, specifically the problem of standing up cheap, owner-maintained **fakes** of real applications so downstream teams can test against them. Future releases will extend Atomic into other ACDC / ATOM problem spaces.
 
@@ -44,17 +46,35 @@ If you want any of these prioritised, raise the request via your usual channel.
 
 ## Installation
 
-Drop this folder into the place Claude Code looks for plugins, or install it via your team's plugin marketplace.
+Atomic ships in three agent-native formats from one canonical source.
 
-The skills auto-activate when the user's prompt matches the trigger phrases declared in each `SKILL.md`.
+### Claude Code
+
+Drop this folder into the place Claude Code looks for plugins, or install it via your team's plugin marketplace. Skills auto-activate when the user's prompt matches the trigger phrases declared in each `SKILL.md`.
+
+### OpenAI Codex
+
+Codex discovers skills under `.agents/skills/` at the repo root. Atomic ships that directory as a symlink to `skills/`, so the same `SKILL.md` files serve both Claude and Codex. Run `python3 scripts/sync-skills.py` if you're on Windows or the symlink isn't resolving — it'll materialize `.agents/skills/` as a copy.
+
+In Codex, skills can be invoked implicitly (matched on description) or explicitly (`/skills` or `$skill-name`).
+
+### GitHub Copilot
+
+Copilot reads slash-command prompts from `.github/prompts/`. Atomic ships generated prompt files (`/generate-fake`, `/update-fake`) and a repo-wide `.github/copilot-instructions.md` index. Unlike Claude and Codex, Copilot only invokes prompts **explicitly** via slash command — there's no implicit match-on-description.
+
+Regenerate the prompt files after editing any `SKILL.md`:
+
+```
+python3 scripts/sync-skills.py
+```
 
 ## Plugin layout
 
 ```
 atomic/
 ├── .claude-plugin/
-│   └── plugin.json
-├── skills/
+│   └── plugin.json                      # Claude Code plugin manifest
+├── skills/                              # CANONICAL — edit these
 │   ├── generate-fake/
 │   │   ├── SKILL.md
 │   │   └── reference/
@@ -74,8 +94,27 @@ atomic/
 │       └── reference/
 │           ├── diff-strategy.md
 │           └── changelog-template.md
+├── .agents/
+│   └── skills -> ../skills              # Codex (symlink; or materialized copy on Windows)
+├── .github/
+│   ├── copilot-instructions.md          # Copilot repo-wide index
+│   └── prompts/                         # GENERATED from skills/ — do not hand-edit
+│       ├── generate-fake.prompt.md
+│       └── update-fake.prompt.md
+├── scripts/
+│   └── sync-skills.py                   # regenerate Copilot prompts + .agents/skills on Windows
 └── README.md
 ```
+
+## How activation differs across tools
+
+| Tool | Discovery path | Activation | Frontmatter |
+|------|----------------|------------|-------------|
+| Claude Code | `skills/<name>/SKILL.md` | Implicit (description match) | `name`, `description` |
+| OpenAI Codex | `.agents/skills/<name>/SKILL.md` | Implicit (description match) or `/skills` / `$skill-name` | `name`, `description` (same format) |
+| GitHub Copilot | `.github/prompts/<name>.prompt.md` | Explicit (`/skill-name` only) | `name`, `description`, `agent` |
+
+The Claude and Codex SKILL.md formats are identical, so the same file serves both. Copilot's prompt files differ enough to need generation (different frontmatter, and relative `reference/...` links need rewriting to resolve from `.github/prompts/`).
 
 ## Design principles
 
