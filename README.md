@@ -2,7 +2,7 @@
 
 **An agent-agnostic plugin and framework for the MISSION+ ACDC / ATOM way of working.**
 
-Atomic is a growing collection of composable agent skills that put AI coding assistants to work across the application lifecycle — testing, legacy code understanding, refactoring, documentation, observability, and more. Each skill is *atomic*: it does one thing well and composes with the others.
+Atomic is a growing collection of composable agent skills that put AI coding assistants to work across the application lifecycle — testing, legacy code understanding, refactoring, documentation, observability, and more.
 
 Skills ship in three formats from a single canonical source: **Claude Code skills**, **OpenAI Codex skills**, and **GitHub Copilot prompt files**.
 
@@ -118,7 +118,7 @@ The Claude and Codex SKILL.md formats are identical, so the same file serves bot
 
 ## Design principles
 
-- **Atomic.** Each skill does one thing and composes with the others. New capabilities arrive as new skills, not as bloat in existing ones.
+- **Composable.** New capabilities arrive as new skills, not as bloat in existing ones. Skills compose via their manifests and shared conventions.
 - **Lightweight by default.** Where Atomic produces runtime artifacts (such as fakes), they use small stacks — Python (FastAPI) or Node (Fastify) — and aim to run on a laptop in one container.
 - **Specs first, code second.** Where contracts exist (OpenAPI / AsyncAPI / proto), Atomic uses them as ground truth before inferring from code.
 - **The application team owns the output.** Artifacts produced by Atomic (fakes today; other things tomorrow) live in the application repo, are reviewed in PRs, and travel with the code they describe.
