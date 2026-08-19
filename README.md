@@ -42,6 +42,9 @@ Atomic is intentionally modular — each skill stands on its own and is added in
 **ACDC / ATOM lifecycle support:**
 - Skills that map to specific stages of the ACDC / ATOM way of working — to be filled in as the framework matures.
 
+**Migration**
+- Skills to migrate a system from one technology stack to another.
+
 If you want any of these prioritised, raise the request via your usual channel.
 
 ## Installation
